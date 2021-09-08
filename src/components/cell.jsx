@@ -1,9 +1,9 @@
 import React from 'react';
 
-export const Cell = ({ i, j }) => {
+export const Cell = ({ i, j, value, cellSize }) => {
   return (
     <rect
-      x={i * 100} y={j * 100}
-      width="100" height="100" />
+      x={i * cellSize} y={j * cellSize}
+      width={cellSize} height={cellSize} />
   );
 };
