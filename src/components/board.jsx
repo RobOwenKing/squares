@@ -2,16 +2,32 @@ import React from 'react';
 
 import { Cell } from './cell.jsx';
 
-export const Board = ({ rows, cols, cellSize }) => {
-  const cells = [];
+const arrayClone = (array) => {
+  return JSON.parse(JSON.stringify(array));
+};
+
+const initCells = (rows, cols) => {
+  const temp = [];
 
   for (let j = 0; j < rows; j += 1) {
     const latestRow = [];
     for (let i = 0; i < cols; i += 1) {
       latestRow.push(null);
     }
-    cells.push(latestRow);
+    temp.push(latestRow);
   }
+
+  return temp;
+};
+
+export const Board = ({ rows, cols, cellSize }) => {
+  const [cells, setCells] = React.useState(initCells(rows, cols));
+
+  const handleCellClick = (i, j) => {
+    const newCells = arrayClone(cells);
+    newCells[j][i] = 1;
+    setCells(newCells);
+  };
 
   return (
     <svg
@@ -25,6 +41,7 @@ export const Board = ({ rows, cols, cellSize }) => {
               key={(j * cols) + i}
               value={value} i={i} j={j}
               cellSize={cellSize}
+              clickHandler={handleCellClick}
             />
           )
         })
