@@ -30,9 +30,15 @@ const initCells = (rows, cols) => {
 
 export const Board = ({ rows, cols, cellSize }) => {
   const [cells, setCells] = React.useState(initCells(rows, cols));
+  const playerColours = {
+    1: '#1E9BF0',
+    2: '#F34423'
+  };
+  const [currentPlayer, setCurrentPlayer] = React.useState(1);
 
   const handleCellClick = (i, j) => {
-    setCells(updateArrayEntry(cells, i, j, '#1E9BF0'));
+    setCells(updateArrayEntry(cells, i, j, playerColours[currentPlayer]));
+    setCurrentPlayer(3 - currentPlayer);
   };
 
   return (
