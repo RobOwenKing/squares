@@ -25,7 +25,7 @@ export const Board = ({ rows, cols, cellSize }) => {
 
   const handleCellClick = (i, j) => {
     const newCells = arrayClone(cells);
-    newCells[j][i] = 1;
+    newCells[j][i] = '#1E9BF0';
     setCells(newCells);
   };
 

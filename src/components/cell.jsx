@@ -3,7 +3,7 @@ import React from 'react';
 export const Cell = ({ i, j, value, cellSize, clickHandler }) => {
   const handleClick = (event) => {
     event.preventDefault();
-    clickHandler(i, j);
+    if (!value) { clickHandler(i, j); }
   }
 
   return (
@@ -12,7 +12,8 @@ export const Cell = ({ i, j, value, cellSize, clickHandler }) => {
         <circle
           cx={(i + 0.5) * cellSize}
           cy={(j + 0.5) * cellSize}
-          r={cellSize * 0.4} /> }
+          r={cellSize * 0.4}
+          fill={value} /> }
       <rect
         x={i * cellSize} y={j * cellSize}
         width={cellSize} height={cellSize}
