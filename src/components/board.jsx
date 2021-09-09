@@ -2,8 +2,16 @@ import React from 'react';
 
 import { Cell } from './cell.jsx';
 
-const arrayClone = (array) => {
-  return JSON.parse(JSON.stringify(array));
+const updateArrayEntry = (array, i, j, newValue) => {
+  return array.map((row, jndex) => {
+    if (j !== jndex) { return row; }
+    else {
+      return row.map((value, index) => {
+        if (i !== index) { return value; }
+        else { return newValue; }
+      })
+    }
+  })
 };
 
 const initCells = (rows, cols) => {
@@ -24,9 +32,7 @@ export const Board = ({ rows, cols, cellSize }) => {
   const [cells, setCells] = React.useState(initCells(rows, cols));
 
   const handleCellClick = (i, j) => {
-    const newCells = arrayClone(cells);
-    newCells[j][i] = '#1E9BF0';
-    setCells(newCells);
+    setCells(updateArrayEntry(cells, i, j, '#1E9BF0'));
   };
 
   return (
