@@ -14,6 +14,12 @@ const updateArrayEntry = (array, i, j, newValue) => {
   })
 };
 
+const updatePlayerCells = (playerCells, currentPlayer, i, j) => {
+  const newPlayerCells = {...playerCells};
+  newPlayerCells[currentPlayer].push([i, j]);
+  return newPlayerCells;
+};
+
 const initCells = (rows, cols) => {
   const temp = [];
 
@@ -35,8 +41,10 @@ export const Board = ({ rows, cols, cellSize }) => {
     2: '#F34423'
   };
   const [currentPlayer, setCurrentPlayer] = React.useState(1);
+  const [playerCells, setPlayerCells] = React.useState({1: [], 2: []});
 
   const handleCellClick = (i, j) => {
+    setPlayerCells(updatePlayerCells(playerCells, currentPlayer, i, j));
     setCells(updateArrayEntry(cells, i, j, playerColours[currentPlayer]));
     setCurrentPlayer(3 - currentPlayer);
   };
