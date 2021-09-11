@@ -16,7 +16,7 @@ const initCells = (rows, cols) => {
   return temp;
 };
 
-const updateArrayEntry = (array, i, j, newValue) => {
+const update2DArrayEntry = (array, i, j, newValue) => {
   return array.map((row, jndex) => {
     if (j !== jndex) { return row; }
     else {
@@ -28,10 +28,10 @@ const updateArrayEntry = (array, i, j, newValue) => {
   })
 };
 
-const updatePlayerCells = (playerCells, currentPlayer, i, j) => {
-  const newPlayerCells = {...playerCells};
-  newPlayerCells[currentPlayer].push([i, j]);
-  return newPlayerCells;
+const pushIntoArrayInObject = (object, arrayKey, i, j) => {
+  const newObject = {...object};
+  newObject[arrayKey].push([i, j]);
+  return newObject;
 };
 
 const isSquareCandidate = (distances, i, j) => {
@@ -68,7 +68,6 @@ const testForSquares = (playerCells, newI, newJ) => {
       if (isSquareCandidate(distances, firstDist, secondDist)) {
         // Test if we have the fourth vertex
         if (isSquare(distances, firstDist, secondDist)) {
-          console.log('Square!');
         }
       }
     }
@@ -83,11 +82,14 @@ export const Board = ({ rows, cols, cellSize }) => {
   };
   const [currentPlayer, setCurrentPlayer] = React.useState(1);
   const [playerCells, setPlayerCells] = React.useState({1: [], 2: []});
+  const [playerScores, setPlayerScores] = React.useState({1: [], 2: []});
 
   const handleCellClick = (i, j) => {
-    setPlayerCells(updatePlayerCells(playerCells, currentPlayer, i, j));
-    setCells(updateArrayEntry(cells, i, j, playerColours[currentPlayer]));
-    if (playerCells[currentPlayer].length >= 3) { testForSquares(playerCells[currentPlayer], i, j); }
+    setPlayerCells(pushIntoArrayInObject(playerCells, currentPlayer, i, j));
+    setCells(update2DArrayEntry(cells, i, j, playerColours[currentPlayer]));
+    if (playerCells[currentPlayer].length >= 3) {
+      testForSquares(playerCells[currentPlayer], i, j);
+    }
     setCurrentPlayer(3 - currentPlayer);
   };
 

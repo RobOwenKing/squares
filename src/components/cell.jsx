@@ -1,5 +1,3 @@
-import React from 'react';
-
 export const Cell = ({ i, j, value, cellSize, clickHandler }) => {
   const handleClick = (event) => {
     event.preventDefault();
