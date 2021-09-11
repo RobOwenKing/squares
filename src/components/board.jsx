@@ -2,6 +2,20 @@ import React from 'react';
 
 import { Cell } from './cell.jsx';
 
+const initCells = (rows, cols) => {
+  const temp = [];
+
+  for (let j = 0; j < rows; j += 1) {
+    const latestRow = [];
+    for (let i = 0; i < cols; i += 1) {
+      latestRow.push(null);
+    }
+    temp.push(latestRow);
+  }
+
+  return temp;
+};
+
 const updateArrayEntry = (array, i, j, newValue) => {
   return array.map((row, jndex) => {
     if (j !== jndex) { return row; }
@@ -20,18 +34,41 @@ const updatePlayerCells = (playerCells, currentPlayer, i, j) => {
   return newPlayerCells;
 };
 
-const initCells = (rows, cols) => {
-  const temp = [];
+const isSquareCandidate = (distances, i, j) => {
+  // Imagine we have just placed a stone and there are two others
+  // One two right and one up, the other two down and one right
+  // These are then going to form three vertices of a potential square
+  return Math.abs(distances[i][0]) === Math.abs(distances[j][1])
+    && Math.abs(distances[i][1]) === Math.abs(distances[j][0])
+    // In such a triple, either both xs and ys will be to the same side of the new vertex
+    // And the other pair will be one either side of the new vertex
+    && (distances[i][0] * distances[i][1] * distances[j][0] * distances[j][1]) <= 0;
+};
 
-  for (let j = 0; j < rows; j += 1) {
-    const latestRow = [];
-    for (let i = 0; i < cols; i += 1) {
-      latestRow.push(null);
+const isSquare = (distances, i , j) => {
+  // Consider the distances as the two components of a vector from the new vertex
+  // The potential fourth vertex would then be the sum of the other two sides away
+  const neededX = distances[i][0] + distances[j][0];
+  const neededY = distances[i][1] + distances[j][1];
+  return distances.some(([i, j]) => i === neededX && j === neededY);
+};
+
+const testForSquares = (playerCells, newI, newJ) => {
+  // Find the coordinate distance from the new stone to each other by that player
+  const distances = playerCells.map(([i,j]) => [newI - i, newJ - j]);
+  // First we look for two distances that are equal and at right angles
+  // These would give us three adjacent vertices of a potential square
+  for (let i = 0; i < distances.length - 1; i += 1) {
+    for (let j = i + 1; j < distances.length; j += 1) {
+      // Test if we have three vertices
+      if (isSquareCandidate(distances, i, j)) {
+        // Test if we have the fourth vertex
+        if (isSquare(distances, i, j)) {
+          console.log('Square!');
+        }
+      }
     }
-    temp.push(latestRow);
   }
-
-  return temp;
 };
 
 export const Board = ({ rows, cols, cellSize }) => {
@@ -46,6 +83,7 @@ export const Board = ({ rows, cols, cellSize }) => {
   const handleCellClick = (i, j) => {
     setPlayerCells(updatePlayerCells(playerCells, currentPlayer, i, j));
     setCells(updateArrayEntry(cells, i, j, playerColours[currentPlayer]));
+    if (playerCells[currentPlayer].length >= 3) { testForSquares(playerCells[currentPlayer], i, j); }
     setCurrentPlayer(3 - currentPlayer);
   };
 
