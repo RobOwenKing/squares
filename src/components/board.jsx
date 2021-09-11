@@ -50,7 +50,11 @@ const isSquare = (distances, i , j) => {
   // The potential fourth vertex would then be the sum of the other two sides away
   const neededX = distances[i][0] + distances[j][0];
   const neededY = distances[i][1] + distances[j][1];
-  return distances.some(([i, j]) => i === neededX && j === neededY);
+  if (distances.some(([i, j]) => i === neededX && j === neededY)) {
+    return [neededX, neededY];
+  } else {
+    return false;
+  }
 };
 
 const testForSquares = (playerCells, newI, newJ) => {
@@ -58,12 +62,12 @@ const testForSquares = (playerCells, newI, newJ) => {
   const distances = playerCells.map(([i,j]) => [newI - i, newJ - j]);
   // First we look for two distances that are equal and at right angles
   // These would give us three adjacent vertices of a potential square
-  for (let i = 0; i < distances.length - 1; i += 1) {
-    for (let j = i + 1; j < distances.length; j += 1) {
+  for (let firstDist = 0; firstDist < distances.length - 1; firstDist += 1) {
+    for (let secondDist = firstDist + 1; secondDist < distances.length; secondDist += 1) {
       // Test if we have three vertices
-      if (isSquareCandidate(distances, i, j)) {
+      if (isSquareCandidate(distances, firstDist, secondDist)) {
         // Test if we have the fourth vertex
-        if (isSquare(distances, i, j)) {
+        if (isSquare(distances, firstDist, secondDist)) {
           console.log('Square!');
         }
       }
