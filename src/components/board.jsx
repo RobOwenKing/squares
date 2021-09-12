@@ -57,7 +57,7 @@ const isSquare = (distances, i , j) => {
   }
 };
 
-const testForSquares = (playerCells, newI, newJ) => {
+const testForSquares = (playerCells, newI, newJ, scoreHandler, currentPlayer) => {
   // Find the coordinate distance from the new stone to each other by that player
   const distances = playerCells.map(([i,j]) => [newI - i, newJ - j]);
   // First we look for two distances that are equal and at right angles
@@ -68,13 +68,14 @@ const testForSquares = (playerCells, newI, newJ) => {
       if (isSquareCandidate(distances, firstDist, secondDist)) {
         // Test if we have the fourth vertex
         if (isSquare(distances, firstDist, secondDist)) {
+          scoreHandler(currentPlayer, 1);
         }
       }
     }
   }
 };
 
-export const Board = ({ rows, cols, cellSize }) => {
+export const Board = ({ rows, cols, cellSize, scoreHandler }) => {
   const [cells, setCells] = React.useState(initCells(rows, cols));
   const playerColours = {
     1: '#1E9BF0',
@@ -82,13 +83,12 @@ export const Board = ({ rows, cols, cellSize }) => {
   };
   const [currentPlayer, setCurrentPlayer] = React.useState(1);
   const [playerCells, setPlayerCells] = React.useState({1: [], 2: []});
-  const [playerScores, setPlayerScores] = React.useState({1: [], 2: []});
 
   const handleCellClick = (i, j) => {
     setPlayerCells(pushIntoArrayInObject(playerCells, currentPlayer, i, j));
     setCells(update2DArrayEntry(cells, i, j, playerColours[currentPlayer]));
     if (playerCells[currentPlayer].length >= 3) {
-      testForSquares(playerCells[currentPlayer], i, j);
+      testForSquares(playerCells[currentPlayer], i, j, scoreHandler, currentPlayer);
     }
     setCurrentPlayer(3 - currentPlayer);
   };
