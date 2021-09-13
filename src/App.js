@@ -25,7 +25,7 @@ function App() {
         <ScoreDisplay player={2} score={playerScores[2]} />
       </h2>
       <Board
-        rows={5} cols={5}
+        rows={7} cols={7}
         cellSize={32}
         scoreHandler={scoreHandler}
       />

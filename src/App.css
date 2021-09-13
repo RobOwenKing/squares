@@ -1,6 +1,18 @@
+body {
+  text-align: center;
+}
+
+h2 {
+  margin-bottom: 0;
+}
+
+.score {
+  margin: auto 8px;
+}
+
 svg {
-  width: 80vw;
-  height: auto;
+  height: 75vh;
+  width: auto;
 }
 
 rect {
