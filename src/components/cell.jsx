@@ -1,7 +1,12 @@
-export const Cell = ({ i, j, value, cellSize, clickHandler }) => {
+export const Cell = ({ i, j, value, cellSize, clickHandler, isClickable }) => {
   const handleClick = (event) => {
     event.preventDefault();
     if (!value) { clickHandler(i, j); }
+  }
+
+  const style = () => {
+    if (isClickable) { return { cursor: 'pointer' } }
+    return {};
   }
 
   return (
@@ -15,7 +20,8 @@ export const Cell = ({ i, j, value, cellSize, clickHandler }) => {
       <rect
         x={i * cellSize} y={j * cellSize}
         width={cellSize} height={cellSize}
-        onClick={handleClick} />
+        onClick={handleClick}
+        style={style()} />
       }
     </g>
   );
