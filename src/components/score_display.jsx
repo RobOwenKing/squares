@@ -1,5 +1,5 @@
-export const ScoreDisplay = ({ player, score }) => {
+export const ScoreDisplay = ({ score }) => {
   return (
-    <span className="score">Player {player}: {score}</span>
+    <span>{score}</span>
   );
 };

@@ -30,8 +30,7 @@ function App() {
   return (
     <div>
       <h2>
-        <ScoreDisplay player={1} score={playerScores[1]} />
-        <ScoreDisplay player={2} score={playerScores[2]} />
+        <ScoreDisplay score={playerScores[1]} /> - <ScoreDisplay score={playerScores[2]} />
       </h2>
       <Board
         rows={7} cols={7}
