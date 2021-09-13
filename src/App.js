@@ -13,10 +13,19 @@ const changeIntInObject = (object, key, increment) => {
 
 function App() {
   const [playerScores, setPlayerScores] = React.useState({1: 0, 2: 0});
+  const playerColours = {
+    1: '#1E9BF0',
+    2: '#F34423'
+  };
+  const [currentPlayer, setCurrentPlayer] = React.useState(1);
 
   const scoreHandler = (currentPlayer, increment) => {
     setPlayerScores(changeIntInObject(playerScores, currentPlayer, increment));
   };
+
+  const toggleCurrentPlayer = () => {
+    setCurrentPlayer(3 - currentPlayer);
+  }
 
   return (
     <div>
@@ -28,6 +37,9 @@ function App() {
         rows={7} cols={7}
         cellSize={32}
         scoreHandler={scoreHandler}
+        playerColours={playerColours}
+        currentPlayer={currentPlayer}
+        toggleCurrentPlayer={toggleCurrentPlayer}
       />
     </div>
   );

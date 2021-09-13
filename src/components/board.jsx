@@ -75,13 +75,8 @@ const testForSquares = (playerCells, newI, newJ, scoreHandler, currentPlayer) =>
   }
 };
 
-export const Board = ({ rows, cols, cellSize, scoreHandler }) => {
+export const Board = ({ rows, cols, cellSize, scoreHandler, playerColours, currentPlayer, toggleCurrentPlayer }) => {
   const [cells, setCells] = React.useState(initCells(rows, cols));
-  const playerColours = {
-    1: '#1E9BF0',
-    2: '#F34423'
-  };
-  const [currentPlayer, setCurrentPlayer] = React.useState(1);
   const [playerCells, setPlayerCells] = React.useState({1: [], 2: []});
 
   const handleCellClick = (i, j) => {
@@ -90,7 +85,7 @@ export const Board = ({ rows, cols, cellSize, scoreHandler }) => {
     if (playerCells[currentPlayer].length >= 3) {
       testForSquares(playerCells[currentPlayer], i, j, scoreHandler, currentPlayer);
     }
-    setCurrentPlayer(3 - currentPlayer);
+    toggleCurrentPlayer();
   };
 
   return (
