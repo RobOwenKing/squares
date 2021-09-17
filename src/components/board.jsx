@@ -82,7 +82,7 @@ export const Board = ({ rows, cols, cellSize, scoreHandler, playerColours, curre
 
   const handleCellClick = (i, j) => {
     if (isClickable) {
-      setIsClickable(false);
+      // setIsClickable(false);
       setPlayerCells(pushIntoArrayInObject(playerCells, currentPlayer, i, j));
       setCells(update2DArrayEntry(cells, i, j, playerColours[currentPlayer]));
       if (playerCells[currentPlayer].length >= 3) {
