@@ -16,6 +16,18 @@ const initCells = (rows, cols) => {
   return temp;
 };
 
+const initEmptyCells = (rows, cols) => {
+  const temp = [];
+
+  for (let j = 0; j < rows; j += 1) {
+    for (let i = 0; i < cols; i += 1) {
+      temp.push([i, j]);
+    }
+  }
+
+  return temp;
+};
+
 const update2DArrayEntry = (array, i, j, newValue) => {
   return array.map((row, jndex) => {
     if (j !== jndex) { return row; }
@@ -77,6 +89,7 @@ const testForSquares = (playerCells, newI, newJ, scoreHandler, currentPlayer) =>
 
 export const Board = ({ rows, cols, cellSize, scoreHandler, playerColours, currentPlayer, setCurrentPlayer, playerIdentities }) => {
   const [cells, setCells] = React.useState(initCells(rows, cols));
+  const [emptyCells, setEmptyCells] = React.useState(initEmptyCells(rows, cols));
   const [playerCells, setPlayerCells] = React.useState({1: [], 2: []});
   const [isClickable, setIsClickable] = React.useState(true);
 
