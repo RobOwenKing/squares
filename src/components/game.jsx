@@ -22,10 +22,6 @@ export const Game = () => {
     setPlayerScores(changeIntInObject(playerScores, currentPlayer, increment));
   };
 
-  const toggleCurrentPlayer = () => {
-    setCurrentPlayer(3 - currentPlayer);
-  }
-
   return (
     <div id="game">
       <h2>
@@ -37,7 +33,7 @@ export const Game = () => {
         scoreHandler={scoreHandler}
         playerColours={playerColours}
         currentPlayer={currentPlayer}
-        toggleCurrentPlayer={toggleCurrentPlayer}
+        setCurrentPlayer={setCurrentPlayer}
         playerIdentities={playerIdentities}
       />
     </div>
