@@ -16,6 +16,7 @@ export const Game = () => {
     2: '#F34423'
   };
   const [currentPlayer, setCurrentPlayer] = React.useState(1);
+  const [playerIdentities, setPlayerIdentities] = React.useState({1: 'human', 2: 'ai1'});
 
   const scoreHandler = (currentPlayer, increment) => {
     setPlayerScores(changeIntInObject(playerScores, currentPlayer, increment));
@@ -37,6 +38,7 @@ export const Game = () => {
         playerColours={playerColours}
         currentPlayer={currentPlayer}
         toggleCurrentPlayer={toggleCurrentPlayer}
+        playerIdentities={playerIdentities}
       />
     </div>
   );
