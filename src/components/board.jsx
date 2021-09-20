@@ -93,6 +93,21 @@ export const Board = ({ rows, cols, cellSize, scoreHandler, playerColours, curre
   const [playerCells, setPlayerCells] = React.useState({1: [], 2: []});
   const [isClickable, setIsClickable] = React.useState(true);
 
+  const makeMove = (player, i ,j) => {
+    setPlayerCells(pushIntoArrayInObject(playerCells, player, i, j));
+    setCells(update2DArrayEntry(cells, i, j, playerColours[player]));
+    setEmptyCells(emptyCells.filter(cell => cell[0] !== i || cell[1] !== j));
+    if (playerCells[player].length >= 3) {
+      testForSquares(playerCells[player], i, j, scoreHandler, player);
+    }
+  };
+
+  const makeAIMove = () => {
+    const chosenID = Math.floor(Math.random() * emptyCells.length);
+    const [chosenI, chosenJ] = emptyCells[chosenID];
+    makeMove(currentPlayer, chosenI, chosenJ);
+  };
+
   const toggleCurrentPlayer = () => {
     const nextPlayer = 3 - currentPlayer;
     if (playerIdentities[nextPlayer] !== 'human') {
@@ -103,21 +118,19 @@ export const Board = ({ rows, cols, cellSize, scoreHandler, playerColours, curre
     setCurrentPlayer(nextPlayer);
   };
 
-  const makeMove = (player, i ,j) => {
-    setPlayerCells(pushIntoArrayInObject(playerCells, player, i, j));
-    setCells(update2DArrayEntry(cells, i, j, playerColours[player]));
-    setEmptyCells(emptyCells.filter(cell => cell[0] !== i || cell[1] !== j));
-    if (playerCells[player].length >= 3) {
-      testForSquares(playerCells[player], i, j, scoreHandler, player);
-    }
-  };
-
   const handleCellClick = (i, j) => {
     if (!isClickable) { return; }
 
     makeMove(currentPlayer, i, j);
     toggleCurrentPlayer();
   };
+
+  React.useEffect(() => {
+    if (playerIdentities[currentPlayer] === 'ai1') {
+      makeAIMove();
+      toggleCurrentPlayer();
+    }
+  }, [currentPlayer]);
 
   return (
     <svg
