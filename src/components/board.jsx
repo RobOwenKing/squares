@@ -95,19 +95,27 @@ export const Board = ({ rows, cols, cellSize, scoreHandler, playerColours, curre
 
   const toggleCurrentPlayer = () => {
     const nextPlayer = 3 - currentPlayer;
-    if (playerIdentities[nextPlayer] !== 'human') { setIsClickable(false); }
+    if (playerIdentities[nextPlayer] !== 'human') {
+      setIsClickable(false);
+    } else {
+      setIsClickable(true);
+    }
     setCurrentPlayer(nextPlayer);
+  };
+
+  const makeMove = (player, i ,j) => {
+    setPlayerCells(pushIntoArrayInObject(playerCells, player, i, j));
+    setCells(update2DArrayEntry(cells, i, j, playerColours[player]));
+    setEmptyCells(emptyCells.filter(cell => cell[0] !== i || cell[1] !== j));
+    if (playerCells[player].length >= 3) {
+      testForSquares(playerCells[player], i, j, scoreHandler, player);
+    }
   };
 
   const handleCellClick = (i, j) => {
     if (!isClickable) { return; }
 
-    setPlayerCells(pushIntoArrayInObject(playerCells, currentPlayer, i, j));
-    setCells(update2DArrayEntry(cells, i, j, playerColours[currentPlayer]));
-    setEmptyCells(emptyCells.filter(cell => cell[0] !== i || cell[1] !== j));
-    if (playerCells[currentPlayer].length >= 3) {
-      testForSquares(playerCells[currentPlayer], i, j, scoreHandler, currentPlayer);
-    }
+    makeMove(currentPlayer, i, j);
     toggleCurrentPlayer();
   };
 
